@@ -1,0 +1,56 @@
+---
+// NumberDisplay.astro - A simple component that fetches a random number
+---
+
+<div class='number-display'>
+  <h2 id='number'></h2>
+</div>
+<p>Retrieves a number from the <code>/number</code> endpoint every second</p>
+
+<style>
+  .number-display {
+    display: inline-block;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 1rem;
+  }
+
+  code {
+    font-size: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2px 3px;
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  // Simple fetch call
+  const numberElement = document.getElementById('number')
+
+  async function getNumber(): Promise<number> {
+    const response = await fetch('/number')
+    const data = await response.json()
+    return data.number
+  }
+
+  // Initialize when the DOM is loaded
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded and parsed')
+
+    // Function to update the number
+    const updateNumber = () => {
+      getNumber().then((number: number) => {
+        if (numberElement) numberElement.textContent = number.toString()
+        else console.error('Number element not found')
+      })
+    }
+
+    // Initial call
+    updateNumber()
+
+    // Set up interval to call every 5 seconds (5000ms)
+    setInterval(updateNumber, 1000)
+  })
+</script>
