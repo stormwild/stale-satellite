@@ -1,0 +1,13 @@
+# Railway ignore file
+
+node_modules/
+.git/
+*.log
+.env.local
+.env.development
+.astro/
+src/
+public/
+README.md
+.gitignore
+tsconfig.json
